@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://allikk38.github.io/chulanchik-cite/sitemap-index.xml

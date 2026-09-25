@@ -1,0 +1,68 @@
+---
+import Container from '@/components/Container.astro';
+import Icon from '@/components/Icon.astro';
+import { facts } from '@/content/facts';
+---
+
+<section class="facts">
+  <Container>
+    <ul class="facts__list">
+      {facts.map((fact) => (
+        <li class="facts__item">
+          <span class="facts__icon">
+            <Icon name={fact.icon} size={22} />
+          </span>
+          <span class="facts__text">{fact.text}</span>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .facts {
+    padding-block: var(--space-6);
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .facts__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-5) var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .facts__list { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .facts__list { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .facts__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .facts__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+  }
+
+  .facts__text {
+    font-size: var(--fs-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+</style>

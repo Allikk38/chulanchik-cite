@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CatalogStub from '@/components/CatalogStub.astro';
+---
+
+<BaseLayout
+  title="Каталог"
+  description="Каталог комиссионного магазина «Чуланчик» скоро откроется. Пока заходите в магазин лично или напишите нам."
+>
+  <div class="page-spacer"></div>
+  <CatalogStub />
+</BaseLayout>
+
+<style>
+  .page-spacer { height: 72px; }
+</style>

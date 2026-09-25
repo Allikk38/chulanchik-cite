@@ -1,0 +1,157 @@
+---
+import { Image } from 'astro:assets';
+import Container from '@/components/Container.astro';
+import Icon from '@/components/Icon.astro';
+import { withBase } from '@/utils/seo';
+import previewImage from '@/assets/images/cat-other.jpg';
+---
+
+<section class="catalog-stub">
+  <div class="catalog-stub__bg" aria-hidden="true">
+    <Image
+      src={previewImage}
+      alt=""
+      widths={[800, 1200, 1600, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      format="webp"
+      quality={82}
+      class="catalog-stub__bg-image"
+    />
+    <div class="catalog-stub__overlay"></div>
+  </div>
+
+  <Container>
+    <div class="catalog-stub__content">
+      <span class="catalog-stub__icon">
+        <Icon name="box" size={26} />
+      </span>
+      <h2 class="catalog-stub__title">Каталог скоро откроется</h2>
+      <p class="catalog-stub__text">
+        Мы готовим витрину — с фотографиями, описаниями и ценами.
+        Пока всё собирается, заходите в магазин лично или напишите нам.
+      </p>
+      <a href={withBase('/contacts')} class="catalog-stub__btn">
+        Связаться с нами
+      </a>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .catalog-stub {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    min-height: 300px;
+    padding-block: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .catalog-stub {
+      min-height: 340px;
+      padding-block: var(--space-7);
+    }
+  }
+
+  /* -------- Фон: абсолютно позиционированный, на всю секцию -------- */
+  .catalog-stub__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .catalog-stub__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Затемнение: центр темнее — там текст */
+  .catalog-stub__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(15, 25, 18, 0.75) 0%,
+      rgba(15, 25, 18, 0.55) 55%,
+      rgba(15, 25, 18, 0.4) 100%
+    );
+  }
+
+  /* -------- Контент поверх фона -------- */
+  .catalog-stub > .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .catalog-stub__content {
+    max-width: 560px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .catalog-stub__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    margin-bottom: var(--space-5);
+  }
+
+  .catalog-stub__title {
+    color: #ffffff;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-3);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  .catalog-stub__text {
+    font-size: var(--fs-md);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: var(--lh-base);
+    margin-bottom: var(--space-6);
+    max-width: 48ch;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  /* -------- Кнопка белая, как в Hero и AboutTeaser -------- */
+  .catalog-stub__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--color-text);
+    font-weight: var(--fw-semibold);
+    padding: 14px var(--space-6);
+    border-radius: var(--radius-md);
+    border: 1.5px solid #ffffff;
+    transition:
+      background var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .catalog-stub__btn:hover {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+  }
+</style>  

@@ -1,0 +1,82 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import { withBase } from '@/utils/seo';
+---
+
+<BaseLayout
+  title="Страница не найдена"
+  description="Такой страницы нет. Вернитесь на главную «Чуланчика»."
+  noindex={true}
+>
+  <section class="notfound">
+    <Container>
+      <div class="notfound__inner">
+        <p class="notfound__code">404</p>
+        <h1 class="notfound__title">Страница не найдена</h1>
+        <p class="notfound__text">
+          Возможно, ссылка устарела или вы ошиблись в адресе.
+          Вернитесь на главную — там всё на месте.
+        </p>
+        <a href={withBase('/')} class="notfound__btn">
+          На главную
+        </a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: 140px var(--space-9);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .notfound__inner {
+    max-width: 560px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .notfound__code {
+    font-family: var(--font-logo);
+    font-size: clamp(80px, 14vw, 140px);
+    line-height: 1;
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .notfound__title {
+    font-size: clamp(24px, 3vw, 34px);
+    margin-bottom: var(--space-4);
+  }
+
+  .notfound__text {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+    max-width: 44ch;
+  }
+
+  .notfound__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-weight: var(--fw-semibold);
+    padding: 14px var(--space-6);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+
+  .notfound__btn:hover {
+    background: var(--color-primary-light);
+    color: #ffffff;
+  }
+</style>

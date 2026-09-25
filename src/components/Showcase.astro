@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import Container from '@/components/Container.astro';
+import { showcase } from '@/content/showcase';
+import { withBase } from '@/utils/seo';
+
+// Собираем все фото товаров — используем те же cat-*.jpg, что и для категорий
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '@/assets/images/cat-*.jpg',
+  { eager: true }
+);
+
+function getImage(name: string) {
+  const key = Object.keys(images).find((k) => k.includes(`/${name}.`));
+  if (!key) {
+    throw new Error(
+      `Не найдено фото товара: ${name}. Проверь, что файл src/assets/images/${name}.jpg существует.`
+    );
+  }
+  return images[key].default;
+}
+---
+
+<section class="showcase">
+  <Container>
+    <header class="showcase__header">
+      <div>
+        <h2 class="showcase__title">Сейчас на витрине</h2>
+        <p class="showcase__lead">
+          Несколько вещей, которые уже ждут нового хозяина.
+        </p>
+      </div>
+      <a href={withBase('/catalog')} class="showcase__all">
+        Смотреть каталог
+      </a>
+    </header>
+
+    <ul class="showcase__list">
+      {showcase.map((item) => (
+        <li>
+          <a href={withBase('/catalog')} class="showcase__item">
+            <span class="showcase__media">
+              {item.badge && (
+                <span class="showcase__badge">{item.badge}</span>
+              )}
+              <Image
+                src={getImage(item.image)}
+                alt={item.title}
+                widths={[240, 360, 520]}
+                sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw"
+                format="webp"
+                quality={82}
+                loading="lazy"
+                class="showcase__image"
+              />
+            </span>
+            <span class="showcase__name">{item.title}</span>
+            <span class="showcase__price">{item.price}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .showcase {
+    padding-block: var(--space-7) var(--space-8);
+    background: var(--color-bg);
+  }
+
+  @media (min-width: 768px) {
+    .showcase { padding-block: var(--space-8) var(--space-9); }
+  }
+
+  /* -------- Заголовок + ссылка -------- */
+  .showcase__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .showcase__title {
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: var(--fw-bold);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-2);
+  }
+
+  .showcase__lead {
+    font-size: var(--fs-base);
+    color: var(--color-text-secondary);
+    max-width: 40ch;
+  }
+
+  .showcase__all {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    transition: color var(--transition-fast);
+  }
+
+  .showcase__all:hover { color: var(--color-primary); }
+
+  /* -------- Сетка -------- */
+  .showcase__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 640px) {
+    .showcase__list { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .showcase__list { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  }
+
+  /* -------- Карточка -------- */
+  .showcase__item {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+    gap: var(--space-3);
+    transition: transform var(--transition-base);
+  }
+
+  .showcase__item:hover { transform: translateY(-3px); }
+
+  .showcase__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .showcase__item:hover .showcase__media {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .showcase__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .showcase__item:hover .showcase__image { transform: scale(1.05); }
+
+  /* Бейдж «Новое» / «Хит» */
+  .showcase__badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 1;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.02em;
+  }
+
+  /* -------- Текст -------- */
+  .showcase__name {
+    display: block;
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    line-height: 1.35;
+  }
+
+  .showcase__price {
+    display: block;
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+    margin-top: -4px;
+  }
+
+  @media (min-width: 1024px) {
+    .showcase__name { font-size: var(--fs-md); }
+    .showcase__price { font-size: var(--fs-lg); }
+  }
+</style>

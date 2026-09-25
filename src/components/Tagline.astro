@@ -1,0 +1,150 @@
+---
+import Container from '@/components/Container.astro';
+import { taglines } from '@/content/taglines';
+
+const total = taglines.length;
+// Длительность одного цикла: 10s пауза + 1.2s прокрут на каждую фразу
+const pause = 10;       // секунд стоит
+const roll = 1.2;       // секунд прокручивается
+const cycle = total * (pause + roll);
+---
+
+<section class="tagline" aria-label="Манифест магазина">
+  <Container>
+    <div
+      class="tagline__window"
+      style={`--total: ${total}; --cycle: ${cycle}s;`}
+    >
+      <div class="tagline__reel">
+        {taglines.map((t) => (
+          <span class="tagline__item">{t.text}</span>
+        ))}
+        {/* Дублируем первую — для бесшовного цикла */}
+        <span class="tagline__item">{taglines[0].text}</span>
+      </div>
+    </div>
+
+    <div class="tagline__dots" aria-hidden="true">
+      {taglines.map((_, i) => (
+        <span
+          class="tagline__dot"
+          style={`--i: ${i}; --total: ${total}; --cycle: ${cycle}s;`}
+        />
+      ))}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .tagline {
+    background: var(--color-bg);
+    padding-block: var(--space-8);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .tagline { padding-block: var(--space-9); }
+  }
+
+  /* -------- Окно: одна строка видна -------- */
+  .tagline__window {
+    position: relative;
+    height: 1.25em;
+    overflow: hidden;
+    font-size: clamp(26px, 4vw, 48px);
+    font-weight: var(--fw-bold);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+
+  /* -------- Лента фраз -------- */
+  .tagline__reel {
+    display: flex;
+    flex-direction: column;
+    /* ключевое: каждая фраза — ровно 1.25em в высоту, лента = total × 1.25em */
+    animation: tagline-roll var(--cycle) cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    will-change: transform;
+  }
+
+  .tagline__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.25em;
+    flex-shrink: 0;
+    padding-inline: var(--space-4);
+    color: var(--color-text);
+  }
+
+  /* -------- Keyframes: «стоит — прокручивается» -------- */
+  /*
+    Каждая фраза: 10s стоит + 1.2s прокрут.
+    Всего фраз N, поэтому ключевые кадры через равные интервалы.
+
+    Для 3 фраз (total=3, cycle=33.6s):
+    - 0%        → показана фраза 0
+    - 29.76%    → конец паузы фразы 0
+    - 33.33%    → начало фразы 1 (сдвиг -1.25em)
+    - 63.10%    → конец паузы фразы 1
+    - 66.67%    → начало фразы 2 (сдвиг -2.5em)
+    - 96.43%    → конец паузы фразы 2
+    - 100%      → начало фразы 0 (сдвиг -3.75em = -total × 1.25em)
+  */
+  @keyframes tagline-roll {
+    0%,
+    29.76% {
+      transform: translateY(0);
+    }
+    33.33%,
+    63.10% {
+      transform: translateY(calc(-1 * 1.25em));
+    }
+    66.67%,
+    96.43% {
+      transform: translateY(calc(-2 * 1.25em));
+    }
+    100% {
+      transform: translateY(calc(-3 * 1.25em));
+    }
+  }
+
+  /* -------- Точки-индикаторы -------- */
+  .tagline__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+  }
+
+  .tagline__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    opacity: 0.6;
+    animation: tagline-dot var(--cycle) infinite;
+    animation-delay: calc(var(--i) * (var(--cycle) / var(--total)));
+  }
+
+  @keyframes tagline-dot {
+    0%,
+    29.76% {
+      background: var(--color-primary);
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    33.33%,
+    100% {
+      background: var(--color-border);
+      opacity: 0.6;
+      transform: scale(1);
+    }
+  }
+
+  /* -------- Уважение к настройкам ОС -------- */
+  @media (prefers-reduced-motion: reduce) {
+    .tagline__reel { animation: none; }
+    .tagline__dot { animation: none; }
+  }
+</style>

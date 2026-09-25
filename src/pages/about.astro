@@ -1,0 +1,200 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import { site } from '@/content/site';
+---
+
+<BaseLayout
+  title="О нас"
+  description="О комиссионном магазине «Чуланчик»: наша миссия, ценности и подход к вещам и людям."
+>
+  <article class="about">
+    <Container>
+      <header class="about__header">
+        <span class="about__eyebrow">О магазине</span>
+        <h1 class="about__title">Чуланчик — это про вещи с историей</h1>
+        <p class="about__lead">
+          Мы верим, что хорошие вещи не должны пылиться. И что комиссионный
+          магазин — это не «эконом-вариант», а разумный и экологичный выбор.
+        </p>
+      </header>
+
+      <div class="about__body">
+        <section class="about__section">
+          <h2 class="about__section-title">Зачем мы это делаем</h2>
+          <p>
+            У каждой вещи есть своя жизнь. Кто-то покупал её с радостью,
+            пользовался годами, а потом она перестала быть нужной — переехала
+            в чулан, на антресоли, в гараж. И там пылится, хотя могла бы
+            ещё долго радовать кого-то другого.
+          </p>
+          <p>
+            Мы в «Чуланчике» даём таким вещам второй шанс. Принимаем их
+            на комиссию, оцениваем честно, ставим на витрину. И находим
+            им нового хозяина — того, кому эта вещь действительно нужна.
+          </p>
+        </section>
+
+        <section class="about__section">
+          <h2 class="about__section-title">Что для нас важно</h2>
+          <ul class="about__list">
+            <li>
+              <strong>Честность.</strong> Мы не завышаем цены и не занижаем
+              оценку. Говорим как есть — и продавцу, и покупателю.
+            </li>
+            <li>
+              <strong>Забота о вещах.</strong> Проверяем состояние каждой
+              вещи перед продажей, чистим, описываем честно.
+            </li>
+            <li>
+              <strong>Люди важнее оборота.</strong> Мы небольшой магазин.
+              Знаем своих постоянных покупателей в лицо и радуемся,
+              когда вещь находит хозяина.
+            </li>
+            <li>
+              <strong>Экология.</strong> Меньше выбрасываем — больше
+              сохраняем. Это не лозунг, а простая арифметика.
+            </li>
+          </ul>
+        </section>
+
+        <blockquote class="about__quote">
+          <p>
+            «Хорошая вещь не должна заканчивать свой путь на свалке.
+            Она должна продолжать жить — у того, кому она нужна.»
+          </p>
+          <cite>— команда «Чуланчика»</cite>
+        </blockquote>
+
+        <section class="about__section">
+          <h2 class="about__section-title">Как с нами связаться</h2>
+          <p>
+            Приходите в магазин, звоните или пишите — мы всегда рады
+            новым людям и новым вещам с историей.
+          </p>
+          <p class="about__contacts">
+            {site.address}<br />
+            {site.hours}<br />
+            {site.phone} · {site.email}
+          </p>
+        </section>
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-block: 120px var(--space-9);
+  }
+
+  .about__header {
+    max-width: 720px;
+    margin-bottom: var(--space-8);
+  }
+
+  .about__eyebrow {
+    display: inline-block;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-terra);
+    margin-bottom: var(--space-3);
+  }
+
+  .about__title {
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-5);
+  }
+
+  .about__lead {
+    font-size: var(--fs-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    max-width: 60ch;
+  }
+
+  .about__body {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .about__section-title {
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.01em;
+  }
+
+  .about__section p {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    margin-bottom: var(--space-4);
+  }
+
+  .about__section p:last-child { margin-bottom: 0; }
+
+  .about__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .about__list li {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    padding-left: var(--space-5);
+    position: relative;
+  }
+
+  .about__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+  }
+
+  .about__list strong {
+    color: var(--color-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .about__quote {
+    border-left: 3px solid var(--color-primary);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+  }
+
+  .about__quote p {
+    font-family: var(--font-logo);
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.35;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+
+  .about__quote cite {
+    font-size: var(--fs-sm);
+    font-style: normal;
+    color: var(--color-text-muted);
+  }
+
+  .about__contacts {
+    color: var(--color-text) !important;
+    font-weight: var(--fw-medium);
+    line-height: 1.7 !important;
+  }
+</style>

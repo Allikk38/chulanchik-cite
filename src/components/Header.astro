@@ -63,6 +63,18 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 </header>
 
 <script>
+  // -------- Скролл-состояние шапки --------
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const onScroll = () => {
+      if (window.scrollY > 20) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // -------- Мобильное меню --------
   const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
   const nav = document.querySelector<HTMLElement>('[data-nav]');
 

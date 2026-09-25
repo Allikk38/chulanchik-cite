@@ -1,0 +1,235 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import { site } from '@/content/site';
+import { withBase } from '@/utils/seo';
+---
+
+<BaseLayout
+  title="Сдать товар"
+  description="Как сдать вещи в комиссионный магазин «Чуланчик»: что принимаем, как оцениваем, как выплачиваем."
+>
+  <article class="sell">
+    <Container>
+      <header class="sell__header">
+        <span class="sell__eyebrow">Комиссия</span>
+        <h1 class="sell__title">Сдайте ненужное — получите выгоду</h1>
+        <p class="sell__lead">
+          Принимаем вещи в хорошем состоянии на комиссию или выкупаем сразу.
+          Быстро, честно, удобно.
+        </p>
+      </header>
+
+      <div class="sell__body">
+        <section class="sell__section">
+          <h2 class="sell__section-title">Что принимаем</h2>
+          <ul class="sell__list">
+            <li>Одежда и обувь в хорошем состоянии</li>
+            <li>Игрушки, настольные игры, конструкторы</li>
+            <li>Посуда, предметы быта, декор</li>
+            <li>Бытовая техника и электроника — рабочие</li>
+            <li>Мебель и предметы интерьера</li>
+            <li>Книги, пластинки, коллекционные предметы</li>
+          </ul>
+        </section>
+
+        <section class="sell__section">
+          <h2 class="sell__section-title">Что не принимаем</h2>
+          <ul class="sell__list sell__list--muted">
+            <li>Вещи с сильными повреждениями, следами плесени, запаха</li>
+            <li>Одежду и обувь с выраженным износом</li>
+            <li>Технику, которая не работает и не подлежит ремонту</li>
+            <li>Предметы, требующие лицензии или разрешения</li>
+            <li>Вещи с юридическими ограничениями</li>
+          </ul>
+        </section>
+
+        <section class="sell__section">
+          <h2 class="sell__section-title">Как это работает</h2>
+          <ol class="sell__steps">
+            <li>
+              <strong>Приносите.</strong> Соберите вещи и принесите в магазин
+              в удобное время.
+            </li>
+            <li>
+              <strong>Оцениваем вместе.</strong> Смотрим на состояние,
+              обсуждаем цену. Вы сразу знаете, сколько получите.
+            </li>
+            <li>
+              <strong>Ставим на витрину.</strong> Вещь уходит в зал —
+              ждёт покупателя. Вы ничего не делаете.
+            </li>
+            <li>
+              <strong>Выплачиваем.</strong> Когда вещь продана — переводим
+              вам оговорённую сумму.
+            </li>
+          </ol>
+        </section>
+
+        <section class="sell__cta">
+          <h2 class="sell__cta-title">Готовы сдать вещи?</h2>
+          <p class="sell__cta-text">
+            Приходите в магазин по адресу {site.address}.
+            Работаем {site.hours.toLowerCase()}.
+          </p>
+          <a href={withBase('/contacts')} class="sell__cta-btn">
+            Все контакты
+          </a>
+        </section>
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
+
+<style>
+  .sell { padding-block: 120px var(--space-9); }
+
+  .sell__header {
+    max-width: 720px;
+    margin-bottom: var(--space-8);
+  }
+
+  .sell__eyebrow {
+    display: inline-block;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-terra);
+    margin-bottom: var(--space-3);
+  }
+
+  .sell__title {
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-5);
+  }
+
+  .sell__lead {
+    font-size: var(--fs-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    max-width: 60ch;
+  }
+
+  .sell__body {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .sell__section-title {
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.01em;
+  }
+
+  .sell__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .sell__list li {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    padding-left: var(--space-5);
+    position: relative;
+  }
+
+  .sell__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+  }
+
+  .sell__list--muted li::before { background: var(--color-text-muted); }
+
+  .sell__steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    counter-reset: step;
+  }
+
+  .sell__steps li {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    padding-left: var(--space-8);
+    position: relative;
+    counter-increment: step;
+  }
+
+  .sell__steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    color: #ffffff;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-sm);
+  }
+
+  .sell__steps strong {
+    color: var(--color-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .sell__cta {
+    margin-top: var(--space-4);
+    padding: var(--space-7);
+    background: var(--color-primary);
+    color: #ffffff;
+    border-radius: var(--radius-lg);
+  }
+
+  .sell__cta-title {
+    color: #ffffff;
+    font-size: clamp(22px, 2.4vw, 28px);
+    margin-bottom: var(--space-3);
+    line-height: 1.2;
+  }
+
+  .sell__cta-text {
+    font-size: var(--fs-md);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: var(--lh-base);
+    margin-bottom: var(--space-5);
+  }
+
+  .sell__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: var(--color-primary);
+    font-weight: var(--fw-semibold);
+    padding: 14px var(--space-6);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+
+  .sell__cta-btn:hover {
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+  }
+</style>

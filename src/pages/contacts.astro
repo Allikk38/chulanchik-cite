@@ -1,0 +1,164 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import { site } from '@/content/site';
+---
+
+<BaseLayout
+  title="Контакты"
+  description="Адрес, часы работы, телефон и мессенджеры комиссионного магазина «Чуланчик»."
+>
+  <article class="contacts">
+    <Container>
+      <header class="contacts__header">
+        <span class="contacts__eyebrow">Контакты</span>
+        <h1 class="contacts__title">Как нас найти</h1>
+        <p class="contacts__lead">
+          Заходите в гости — мы всегда рады новым людям и новым вещам с историей.
+        </p>
+      </header>
+
+      <div class="contacts__grid">
+        <div class="contacts__info">
+          <section class="contacts__block">
+            <h2 class="contacts__block-title">Адрес</h2>
+            <p class="contacts__value">{site.address}</p>
+          </section>
+
+          <section class="contacts__block">
+            <h2 class="contacts__block-title">Часы работы</h2>
+            <p class="contacts__value">{site.hours}</p>
+          </section>
+
+          <section class="contacts__block">
+            <h2 class="contacts__block-title">Связаться</h2>
+            <ul class="contacts__links">
+              <li>
+                <a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a>
+              </li>
+              <li>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              </li>
+              {site.social.telegram && (
+                <li><a href={site.social.telegram}>Telegram</a></li>
+              )}
+              {site.social.whatsapp && (
+                <li><a href={site.social.whatsapp}>WhatsApp</a></li>
+              )}
+              {site.social.vk && (
+                <li><a href={site.social.vk}>ВКонтакте</a></li>
+              )}
+            </ul>
+          </section>
+        </div>
+
+        <div class="contacts__map">
+          <iframe
+            title="Карта"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=37.5%2C55.7%2C37.7%2C55.8&layer=mapnik"
+            loading="lazy"
+            class="contacts__map-frame"></iframe>
+        </div>
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
+
+<style>
+  .contacts { padding-block: 120px var(--space-9); }
+
+  .contacts__header {
+    max-width: 720px;
+    margin-bottom: var(--space-8);
+  }
+
+  .contacts__eyebrow {
+    display: inline-block;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-terra);
+    margin-bottom: var(--space-3);
+  }
+
+  .contacts__title {
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-5);
+  }
+
+  .contacts__lead {
+    font-size: var(--fs-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-base);
+    max-width: 60ch;
+  }
+
+  .contacts__grid {
+    display: grid;
+    gap: var(--space-7);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .contacts__grid { grid-template-columns: 1fr 1.2fr; gap: var(--space-8); }
+  }
+
+  .contacts__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .contacts__block-title {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .contacts__value {
+    font-size: var(--fs-lg);
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+
+  .contacts__links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contacts__links a {
+    font-size: var(--fs-lg);
+    color: var(--color-primary);
+    font-weight: var(--fw-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .contacts__links a:hover { color: var(--color-primary-light); }
+
+  .contacts__map {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--color-bg-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .contacts__map { aspect-ratio: auto; min-height: 480px; }
+  }
+
+  .contacts__map-frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+</style>

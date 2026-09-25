@@ -1,0 +1,213 @@
+---
+import { Image } from 'astro:assets';
+import Container from '@/components/Container.astro';
+import { withBase } from '@/utils/seo';
+import aboutImage from '@/assets/images/about-teaser.jpg';
+---
+
+<section class="about-teaser">
+  <div class="about-teaser__bg" aria-hidden="true">
+    <Image
+      src={aboutImage}
+      alt=""
+      widths={[800, 1200, 1600, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      format="webp"
+      quality={82}
+      class="about-teaser__bg-image"
+    />
+    <div class="about-teaser__overlay"></div>
+  </div>
+
+  <Container>
+    <div class="about-teaser__content">
+      <span class="about-teaser__eyebrow">О магазине</span>
+      <h2 class="about-teaser__title">Что такое «Чуланчик»</h2>
+      <p class="about-teaser__text">
+        Мы — небольшой комиссионный магазин, где вещи получают вторую жизнь.
+        Кто-то освобождает чулан от того, чем давно не пользуется, а кто-то
+        находит нужное по цене, которая честнее магазинной.
+      </p>
+      <p class="about-teaser__text">
+        Мы верим, что хорошие вещи не должны пылиться. И что покупка
+        с рук — это не «эконом-вариант», а разумный и экологичный выбор.
+      </p>
+      <a href={withBase('/about')} class="about-teaser__link">
+        <span>Подробнее о нас</span>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14" />
+          <path d="M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .about-teaser {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    min-height: 520px;
+    padding-block: calc(var(--space-9) + 40px) var(--space-9);
+  }
+
+  @media (min-width: 768px) {
+    .about-teaser {
+      min-height: 620px;
+      padding-block: calc(var(--space-9) + 70px) var(--space-9);
+    }
+  }
+
+  /* -------- Фон -------- */
+  .about-teaser__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .about-teaser__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Зеркальный градиент: справа темнее (там текст) */
+  .about-teaser__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      270deg,
+      rgba(15, 25, 18, 0.82) 0%,
+      rgba(15, 25, 18, 0.6) 40%,
+      rgba(15, 25, 18, 0.3) 75%,
+      rgba(15, 25, 18, 0.18) 100%
+    );
+  }
+
+  @media (max-width: 767px) {
+    .about-teaser__overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(15, 25, 18, 0.72) 0%,
+        rgba(15, 25, 18, 0.82) 100%
+      );
+    }
+  }
+
+  /* -------- Растворение сверху: продолжение Hero -------- */
+  .about-teaser::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 180px;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 25, 18, 0.95) 0%,
+      rgba(15, 25, 18, 0.7) 35%,
+      rgba(15, 25, 18, 0.3) 70%,
+      transparent 100%
+    );
+  }
+
+  /* Контент выше градиента */
+  .about-teaser > .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+
+  /* -------- Контент справа -------- */
+  .about-teaser__content {
+    max-width: 560px;
+    margin-left: auto;
+  }
+
+  @media (max-width: 767px) {
+    .about-teaser__content { margin-left: 0; }
+  }
+
+  .about-teaser__eyebrow {
+    display: inline-block;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #e8b98a;
+    margin-bottom: var(--space-3);
+  }
+
+  .about-teaser__title {
+    color: #ffffff;
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-5);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  .about-teaser__text {
+    font-size: var(--fs-md);
+    color: rgba(255, 255, 255, 0.92);
+    line-height: var(--lh-base);
+    margin-bottom: var(--space-4);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .about-teaser__text:last-of-type {
+    margin-bottom: var(--space-6);
+  }
+
+  /* -------- Кнопка белая, как в Hero -------- */
+  .about-teaser__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-base);
+    color: var(--color-text);
+    background: #ffffff;
+    padding: 14px var(--space-6);
+    border-radius: var(--radius-md);
+    border: 1.5px solid #ffffff;
+    transition:
+      background var(--transition-fast),
+      color var(--transition-fast),
+      gap var(--transition-fast);
+  }
+
+  .about-teaser__link svg {
+    transition: transform var(--transition-base);
+  }
+
+  .about-teaser__link:hover {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+    gap: var(--space-3);
+  }
+
+  .about-teaser__link:hover svg {
+    transform: translateX(2px);
+  }
+</style>
