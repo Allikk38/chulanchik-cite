@@ -1,0 +1,43 @@
+---
+import Container from '@/components/Container.astro';
+import { site } from '@/content/site';
+import { navigation } from '@/content/navigation';
+import { withBase } from '@/utils/seo';
+import '@/styles/components/footer.css';
+---
+
+<footer class="site-footer">
+  <Container>
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="site-footer__logo">{site.name}</div>
+        <p class="site-footer__desc">{site.description}</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Навигация в подвале">
+        <ul>
+          {navigation.map((item) => (
+            <li>
+              <a href={withBase(item.href)}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <address class="site-footer__contacts">
+        <p>{site.address}</p>
+        <p>{site.hours}</p>
+        <p>
+          <a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a>
+        </p>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </address>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>© {site.year} {site.name}. Все права защищены.</span>
+    </div>
+  </Container>
+</footer>
