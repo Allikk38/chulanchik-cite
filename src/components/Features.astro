@@ -1,6 +1,5 @@
 ---
 import Container from '@/components/Container.astro';
-import Icon from '@/components/Icon.astro';
 import { features } from '@/content/features';
 ---
 
@@ -9,13 +8,8 @@ import { features } from '@/content/features';
     <ul class="features__list">
       {features.map((feature) => (
         <li class="features__item">
-          <span class="features__icon">
-            <Icon name={feature.icon} size={26} />
-          </span>
-          <div class="features__text">
-            <h3 class="features__title">{feature.title}</h3>
-            <p class="features__desc">{feature.text}</p>
-          </div>
+          <h3 class="features__title">{feature.title}</h3>
+          <p class="features__desc">{feature.text}</p>
         </li>
       ))}
     </ul>
@@ -24,18 +18,19 @@ import { features } from '@/content/features';
 
 <style>
   .features {
-    padding-block: var(--space-7);
+    padding-block: var(--space-8);
     background: var(--color-bg);
   }
 
   @media (min-width: 768px) {
-    .features { padding-block: var(--space-8); }
+    .features { padding-block: var(--space-9); }
   }
 
+  /* -------- Сетка: 1 / 2 / 4 колонки -------- */
   .features__list {
     list-style: none;
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-6) var(--space-6);
     grid-template-columns: 1fr;
   }
 
@@ -46,70 +41,33 @@ import { features } from '@/content/features';
   @media (min-width: 1024px) {
     .features__list {
       grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-5);
+      gap: var(--space-6);
     }
   }
 
-  /* -------- Карточка -------- */
+  /* -------- Карточка: тонкая линия сверху + заголовок + текст -------- */
   .features__item {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-4);
-    padding: var(--space-5);
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border-light);
-    box-shadow: var(--shadow-sm);
-    transition:
-      transform var(--transition-base),
-      box-shadow var(--transition-base),
-      border-color var(--transition-base);
-  }
-
-  .features__item:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: transparent;
-  }
-
-  /* -------- Иконка — насыщенная, заметная -------- */
-  .features__icon {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius-md);
-    background: var(--color-primary);
-    color: #ffffff;
-    transition: background var(--transition-base);
-  }
-
-  .features__item:hover .features__icon {
-    background: var(--color-primary-light);
-  }
-
-  /* -------- Текст -------- */
-  .features__text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--color-accent-terra);
   }
 
   .features__title {
-    font-size: var(--fs-md);
+    font-size: var(--fs-xl);
     font-weight: var(--fw-semibold);
     line-height: 1.25;
     color: var(--color-text);
-    margin: 0;
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.01em;
   }
 
   .features__desc {
-    font-size: var(--fs-sm);
+    font-size: var(--fs-base);
     color: var(--color-text-secondary);
-    line-height: 1.4;
+    line-height: var(--lh-base);
     margin: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .features__title { font-size: var(--fs-lg); }
   }
 </style>

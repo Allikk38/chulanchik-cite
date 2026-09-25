@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Container from '@/components/Container.astro';
 import { withBase } from '@/utils/seo';
 import heroImage from '@/assets/images/hero.jpg';
@@ -7,15 +7,16 @@ import heroImage from '@/assets/images/hero.jpg';
 
 <section class="hero">
   <div class="hero__bg" aria-hidden="true">
-    <Image
+    <Picture
       src={heroImage}
       alt=""
-      widths={[800, 1200, 1600, 2000]}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[800, 1200, 1600, 2000, 2400, 3000]}
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
-      format="webp"
-      quality={82}
+      quality={88}
       class="hero__bg-image"
     />
     <div class="hero__overlay"></div>
@@ -31,10 +32,10 @@ import heroImage from '@/assets/images/hero.jpg';
         Комиссионный магазин «Чуланчик».
       </p>
       <div class="hero__actions">
-        <a href={withBase('/catalog')} class="hero__btn hero__btn--primary">
+        <a href={withBase('/catalog')} class="btn btn--primary">
           Смотреть каталог
         </a>
-        <a href={withBase('/sell')} class="hero__btn hero__btn--secondary">
+        <a href={withBase('/sell')} class="btn btn--light">
           Сдать товар
         </a>
       </div>
@@ -51,7 +52,6 @@ import heroImage from '@/assets/images/hero.jpg';
     display: flex;
     align-items: center;
     min-height: 480px;
-    /* верх — с запасом под фиксированную шапку (72px) + «воздух» */
     padding-top: calc(72px + var(--space-7));
     padding-bottom: var(--space-8);
   }
@@ -77,7 +77,9 @@ import heroImage from '@/assets/images/hero.jpg';
     z-index: -1;
   }
 
-  .hero__bg-image {
+  /* Picture рендерит <picture> → <img>. Стилизуем картинку через :global,
+     чтобы дотянуться до вложенного <img>. */
+  .hero__bg :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -135,43 +137,5 @@ import heroImage from '@/assets/images/hero.jpg';
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-  }
-
-  .hero__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: var(--fw-semibold);
-    font-size: var(--fs-base);
-    padding: 14px var(--space-6);
-    border-radius: var(--radius-md);
-    border: 1.5px solid transparent;
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
-  }
-
-  /* Зелёная кнопка — как в референсе */
-  .hero__btn--primary {
-    background: var(--color-primary);
-    color: #ffffff;
-    border-color: var(--color-primary);
-  }
-
-  .hero__btn--primary:hover {
-    background: var(--color-primary-light);
-    border-color: var(--color-primary-light);
-    color: #ffffff;
-  }
-
-  /* Белая кнопка — как в референсе */
-  .hero__btn--secondary {
-    background: #ffffff;
-    color: var(--color-text);
-    border-color: #ffffff;
-  }
-
-  .hero__btn--secondary:hover {
-    background: var(--color-bg-secondary);
-    border-color: var(--color-bg-secondary);
-    color: var(--color-text);
   }
 </style>

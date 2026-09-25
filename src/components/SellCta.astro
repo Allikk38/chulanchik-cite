@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Container from '@/components/Container.astro';
 import { withBase } from '@/utils/seo';
 import sellCtaImage from '@/assets/images/sell-cta.jpg';
@@ -14,21 +14,21 @@ import sellCtaImage from '@/assets/images/sell-cta.jpg';
           Принимаем товары в хорошем состоянии на комиссию или выкупаем сразу.
           Быстро, честно, удобно.
         </p>
-        <a href={withBase('/sell')} class="sell-cta__btn">
+        <a href={withBase('/sell')} class="btn btn--light">
           Узнать условия
         </a>
       </div>
 
       <div class="sell-cta__media">
-        <Image
+        <Picture
           src={sellCtaImage}
           alt="Вещи, которые можно сдать в комиссионный магазин «Чуланчик»"
-          widths={[480, 720, 960, 1200]}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          widths={[480, 720, 960, 1200, 1600]}
           sizes="(max-width: 1023px) 100vw, 50vw"
-          format="webp"
-          quality={82}
+          quality={88}
           loading="lazy"
-          class="sell-cta__image"
         />
       </div>
     </div>
@@ -78,23 +78,6 @@ import sellCtaImage from '@/assets/images/sell-cta.jpg';
     max-width: 52ch;
   }
 
-  .sell-cta__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #ffffff;
-    color: var(--color-primary);
-    font-weight: var(--fw-semibold);
-    padding: 14px var(--space-6);
-    border-radius: var(--radius-md);
-    transition: background var(--transition-fast), color var(--transition-fast);
-  }
-
-  .sell-cta__btn:hover {
-    background: var(--color-primary-bg);
-    color: var(--color-primary);
-  }
-
   .sell-cta__media {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -103,7 +86,7 @@ import sellCtaImage from '@/assets/images/sell-cta.jpg';
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   }
 
-  .sell-cta__image {
+  .sell-cta__media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;

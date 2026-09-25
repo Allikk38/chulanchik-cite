@@ -15,7 +15,9 @@ import { howItWorks } from '@/content/howItWorks';
     <ol class="how-it-works__list">
       {howItWorks.map((step) => (
         <li class="how-it-works__item">
-          <span class="how-it-works__num" aria-hidden="true">{step.number}</span>
+          <span class="how-it-works__num" aria-hidden="true">
+            {String(step.number).padStart(2, '0')}
+          </span>
           <h3 class="how-it-works__step-title">{step.title}</h3>
           <p class="how-it-works__step-text">{step.text}</p>
         </li>
@@ -25,8 +27,12 @@ import { howItWorks } from '@/content/howItWorks';
 </section>
 
 <style>
+  .how-it-works {
+    background: var(--color-bg-secondary);
+  }
+
   .how-it-works__header {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
     max-width: 620px;
   }
 
@@ -39,49 +45,66 @@ import { howItWorks } from '@/content/howItWorks';
     color: var(--color-text-secondary);
   }
 
+  /* -------- Сетка -------- */
   .how-it-works__list {
     list-style: none;
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-7);
     grid-template-columns: 1fr;
   }
 
   @media (min-width: 640px) {
-    .how-it-works__list { grid-template-columns: repeat(2, 1fr); }
+    .how-it-works__list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8) var(--space-6);
+    }
   }
 
   @media (min-width: 1024px) {
-    .how-it-works__list { grid-template-columns: repeat(4, 1fr); }
+    .how-it-works__list {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-7);
+    }
   }
 
+  /* -------- Шаг: крупная цифра + линия + тексты -------- */
   .how-it-works__item {
-    padding: var(--space-5);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
   }
 
+  /* Крупная цифра — главный визуальный ритм блока */
   .how-it-works__num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    background: var(--color-primary);
-    color: #ffffff;
+    display: block;
+    font-size: clamp(44px, 4.5vw, 64px);
     font-weight: var(--fw-bold);
-    font-size: var(--fs-md);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-accent-terra);
+    font-variant-numeric: tabular-nums;
     margin-bottom: var(--space-4);
+  }
+
+  /* Тонкая линия под цифрой */
+  .how-it-works__item::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--color-border);
+    margin-bottom: var(--space-5);
   }
 
   .how-it-works__step-title {
     font-size: var(--fs-lg);
-    margin-bottom: var(--space-2);
+    font-weight: var(--fw-semibold);
+    margin-bottom: var(--space-3);
+    line-height: 1.25;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
   }
 
   .how-it-works__step-text {
-    font-size: var(--fs-sm);
+    font-size: var(--fs-base);
     color: var(--color-text-secondary);
     line-height: var(--lh-base);
   }

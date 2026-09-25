@@ -2,6 +2,9 @@
 import '@/styles/tokens.css';
 import '@/styles/base.css';
 import '@/styles/layout.css';
+import '@/styles/components/button.css';
+
+import { Font } from 'astro:assets';
 
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
@@ -65,14 +68,15 @@ const jsonLd = localBusinessJsonLd();
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="96x96" href={withBase('/favicon-96x96.png')} />
+    <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase('/apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('/site.webmanifest')} />
+    <meta name="theme-color" content="#1a3c2a" />
 
-    <!-- Fonts (Google, пока нет self-hosted) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lobster&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Fonts: self-hosted через Astro Fonts API -->
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-lobster" />
 
     <!-- JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

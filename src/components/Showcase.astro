@@ -1,24 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import Container from '@/components/Container.astro';
 import { showcase } from '@/content/showcase';
 import { withBase } from '@/utils/seo';
-
-// Собираем все фото товаров — используем те же cat-*.jpg, что и для категорий
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '@/assets/images/cat-*.jpg',
-  { eager: true }
-);
-
-function getImage(name: string) {
-  const key = Object.keys(images).find((k) => k.includes(`/${name}.`));
-  if (!key) {
-    throw new Error(
-      `Не найдено фото товара: ${name}. Проверь, что файл src/assets/images/${name}.jpg существует.`
-    );
-  }
-  return images[key].default;
-}
 ---
 
 <section class="showcase">
@@ -37,23 +20,11 @@ function getImage(name: string) {
 
     <ul class="showcase__list">
       {showcase.map((item) => (
-        <li>
-          <a href={withBase('/catalog')} class="showcase__item">
-            <span class="showcase__media">
-              {item.badge && (
-                <span class="showcase__badge">{item.badge}</span>
-              )}
-              <Image
-                src={getImage(item.image)}
-                alt={item.title}
-                widths={[240, 360, 520]}
-                sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw"
-                format="webp"
-                quality={82}
-                loading="lazy"
-                class="showcase__image"
-              />
-            </span>
+        <li class="showcase__item">
+          <a href={withBase('/catalog')} class="showcase__link">
+            {item.badge && (
+              <span class="showcase__badge">{item.badge}</span>
+            )}
             <span class="showcase__name">{item.title}</span>
             <span class="showcase__price">{item.price}</span>
           </a>
@@ -65,12 +36,12 @@ function getImage(name: string) {
 
 <style>
   .showcase {
-    padding-block: var(--space-7) var(--space-8);
+    padding-block: var(--space-8) var(--space-8);
     background: var(--color-bg);
   }
 
   @media (min-width: 768px) {
-    .showcase { padding-block: var(--space-8) var(--space-9); }
+    .showcase { padding-block: var(--space-9) var(--space-9); }
   }
 
   /* -------- Заголовок + ссылка -------- */
@@ -79,7 +50,7 @@ function getImage(name: string) {
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-4);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-7);
   }
 
   .showcase__title {
@@ -105,91 +76,68 @@ function getImage(name: string) {
 
   .showcase__all:hover { color: var(--color-primary); }
 
-  /* -------- Сетка -------- */
+  /* -------- Сетка: 1 / 2 / 4 -------- */
   .showcase__list {
     list-style: none;
     display: grid;
-    gap: var(--space-4);
-    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6) var(--space-6);
+    grid-template-columns: 1fr;
   }
 
   @media (min-width: 640px) {
-    .showcase__list { grid-template-columns: repeat(3, 1fr); }
+    .showcase__list { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (min-width: 1024px) {
-    .showcase__list { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+    .showcase__list {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-7);
+    }
   }
 
-  /* -------- Карточка -------- */
+  /* -------- Колонка прайса -------- */
   .showcase__item {
-    display: flex;
-    flex-direction: column;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+
+  .showcase__link {
+    display: block;
     color: var(--color-text);
-    gap: var(--space-3);
-    transition: transform var(--transition-base);
+    transition: color var(--transition-fast);
   }
 
-  .showcase__item:hover { transform: translateY(-3px); }
-
-  .showcase__media {
-    position: relative;
-    display: block;
-    aspect-ratio: 1 / 1;
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow var(--transition-base);
-  }
-
-  .showcase__item:hover .showcase__media {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .showcase__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  .showcase__item:hover .showcase__image { transform: scale(1.05); }
-
-  /* Бейдж «Новое» / «Хит» */
+  /* Бейдж — маленькая надпись сверху, не пилюля */
   .showcase__badge {
-    position: absolute;
-    top: var(--space-3);
-    left: var(--space-3);
-    z-index: 1;
-    background: var(--color-primary);
-    color: #ffffff;
+    display: inline-block;
     font-size: var(--fs-xs);
     font-weight: var(--fw-semibold);
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent-terra);
+    margin-bottom: var(--space-2);
   }
 
-  /* -------- Текст -------- */
   .showcase__name {
     display: block;
-    font-size: var(--fs-base);
+    font-size: var(--fs-md);
     font-weight: var(--fw-medium);
     line-height: 1.35;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
   }
 
   .showcase__price {
     display: block;
-    font-size: var(--fs-lg);
+    font-size: var(--fs-xl);
     font-weight: var(--fw-bold);
     color: var(--color-text);
-    margin-top: -4px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
-  @media (min-width: 1024px) {
-    .showcase__name { font-size: var(--fs-md); }
-    .showcase__price { font-size: var(--fs-lg); }
+  .showcase__link:hover .showcase__name,
+  .showcase__link:hover .showcase__price {
+    color: var(--color-primary);
   }
 </style>

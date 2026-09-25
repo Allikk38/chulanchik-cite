@@ -5,10 +5,30 @@ import { navigation } from '@/content/navigation';
 import { withBase } from '@/utils/seo';
 import '@/styles/components/header.css';
 
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Текущий путь без base и без trailing slash
+const RAW_BASE = import.meta.env.BASE_URL ?? '/';
+const BASE = RAW_BASE.endsWith('/') ? RAW_BASE.slice(0, -1) : RAW_BASE;
+
+const pathname = Astro.url.pathname;
+// Путь без base: '/', '/about', '/sell' и т.д.
+const pathWithoutBase = BASE && pathname.startsWith(BASE)
+  ? pathname.slice(BASE.length) || '/'
+  : pathname;
+
+// Главная — только '/'
+const isHome = pathWithoutBase === '/' || pathWithoutBase === '';
+
+// На внутренних страницах шапка сразу «прилипшая» (кремовая, тёмный текст)
+const initialScrolled = !isHome;
+
+const currentPath = pathWithoutBase.replace(/\/$/, '') || '/';
 ---
 
-<header class="site-header" data-header>
+<header
+  class:list={['site-header', { 'is-scrolled': initialScrolled }]}
+  data-header
+  data-initial-scrolled={initialScrolled ? 'true' : 'false'}
+>
   <Container>
     <div class="site-header__inner">
       <a
@@ -40,20 +60,21 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
         data-nav
       >
         <ul class="site-header__nav-list">
-          {navigation.map((item) => (
-            <li>
-              <a
-                href={withBase(item.href)}
-                class:list={[
-                  'site-header__nav-link',
-                  { 'is-active': currentPath === withBase(item.href).replace(/\/$/, '') },
-                ]}
-              >
-                {item.label}
-                {item.note && <span class="site-header__nav-note">{item.note}</span>}
-              </a>
-            </li>
-          ))}
+          {navigation.map((item) => {
+            const itemPath = withBase(item.href).replace(BASE, '').replace(/\/$/, '') || '/';
+            const isActive = currentPath === itemPath;
+            return (
+              <li>
+                <a
+                  href={withBase(item.href)}
+                  class:list={['site-header__nav-link', { 'is-active': isActive }]}
+                >
+                  {item.label}
+                  {item.note && <span class="site-header__nav-note">{item.note}</span>}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <a href={withBase('/sell')} class="site-header__cta">Сдать товар</a>
@@ -63,15 +84,22 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 </header>
 
 <script>
-  // -------- Скролл-состояние шапки --------
   const header = document.querySelector<HTMLElement>('[data-header]');
+  const initialScrolled = header?.dataset.initialScrolled === 'true';
+
   if (header) {
-    const onScroll = () => {
-      if (window.scrollY > 20) header.classList.add('is-scrolled');
-      else header.classList.remove('is-scrolled');
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    if (initialScrolled) {
+      // Внутренние страницы: класс уже стоит, просто следим, чтобы не снять.
+      // Скролл ничего не меняет — фон всегда кремовый.
+    } else {
+      // Главная: прозрачная шапка, при скролле > 20px добавляем is-scrolled.
+      const onScroll = () => {
+        if (window.scrollY > 20) header.classList.add('is-scrolled');
+        else header.classList.remove('is-scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
   }
 
   // -------- Мобильное меню --------

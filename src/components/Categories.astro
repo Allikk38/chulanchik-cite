@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Container from '@/components/Container.astro';
 import { categories } from '@/content/categories';
 import { withBase } from '@/utils/seo';
@@ -34,18 +34,20 @@ function getCategoryImage(name: string) {
         <li>
           <a href={withBase('/catalog')} class="categories__item">
             <span class="categories__media">
-              <Image
+              <Picture
                 src={getCategoryImage(cat.image)}
                 alt={cat.title}
-                widths={[240, 360, 520, 720]}
-                sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw"
-                format="webp"
-                quality={82}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                widths={[240, 360, 520, 720, 1000]}
+                sizes="(max-width: 639px) 50vw, 33vw"
+                quality={88}
                 loading="lazy"
-                class="categories__image"
               />
             </span>
-            <span class="categories__name">{cat.title}</span>
+            <span class="categories__name">
+              <span class="categories__name-inner">{cat.title}</span>
+            </span>
           </a>
         </li>
       ))}
@@ -56,7 +58,7 @@ function getCategoryImage(name: string) {
 <style>
   .categories {
     padding-block: var(--space-7) var(--space-6);
-    background: var(--color-bg);
+    background: var(--color-bg-secondary);
   }
 
   /* -------- Заголовок + ссылка -------- */
@@ -84,7 +86,7 @@ function getCategoryImage(name: string) {
 
   .categories__all:hover { color: var(--color-primary); }
 
-  /* -------- Сетка: 2 / 3 / 4 колонки -------- */
+  /* -------- Сетка: 2 / 3 колонки -------- */
   .categories__list {
     list-style: none;
     display: grid;
@@ -93,17 +95,6 @@ function getCategoryImage(name: string) {
   }
 
   @media (min-width: 640px) {
-    .categories__list { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    .categories__list {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
-    }
-  }
-
-  @media (min-width: 1280px) {
     .categories__list {
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-6);
@@ -135,42 +126,58 @@ function getCategoryImage(name: string) {
     overflow: hidden;
     box-shadow: var(--shadow-sm);
     transition: box-shadow var(--transition-base);
+    position: relative;
   }
 
   .categories__item:hover .categories__media {
     box-shadow: var(--shadow-lg);
   }
 
-  .categories__image {
+  /* Picture рендерит <picture> — растягиваем его на всю плитку */
+  .categories__media :global(picture) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .categories__media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
-  .categories__item:hover .categories__image {
+  .categories__item:hover .categories__media :global(img) {
     transform: scale(1.06);
   }
 
   /* -------- Подпись -------- */
   .categories__name {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
     position: relative;
     font-size: var(--fs-lg);
     font-weight: var(--fw-semibold);
     line-height: 1.3;
     color: var(--color-text);
+    padding-bottom: 4px;
     transition: color var(--transition-base);
+    max-width: 100%;
   }
 
-  /* Подчёркивание, появляется при hover */
+  .categories__name-inner {
+    display: inline-block;
+    text-align: center;
+  }
+
   .categories__name::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -3px;
+    bottom: 0;
     height: 2px;
     background: var(--color-primary);
     transform: scaleX(0);
@@ -186,7 +193,6 @@ function getCategoryImage(name: string) {
     transform: scaleX(1);
   }
 
-  /* Мобильный — не такой крупный шрифт */
   @media (max-width: 639px) {
     .categories__name { font-size: var(--fs-base); }
   }

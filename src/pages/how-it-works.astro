@@ -38,7 +38,7 @@ import { withBase } from '@/utils/seo';
           <details class="how__faq-item">
             <summary>Сколько стоит сдать вещь?</summary>
             <p>
-              Сдача в «Чуланчик» — бесплатна. Мы зарабатываем только когда
+              Сдача в «Чуланчик» — бесплатная. Мы зарабатываем только когда
               вещь продаётся: берём оговорённый процент с продажи.
             </p>
           </details>
@@ -83,7 +83,7 @@ import { withBase } from '@/utils/seo';
         <p class="how__cta-text">
           Остались вопросы? Приходите в магазин или пишите.
         </p>
-        <a href={withBase('/contacts')} class="how__cta-btn">
+        <a href={withBase('/contacts')} class="btn btn--primary">
           Все контакты
         </a>
       </div>
@@ -243,22 +243,5 @@ import { withBase } from '@/utils/seo';
     font-size: var(--fs-md);
     color: var(--color-text);
     font-weight: var(--fw-medium);
-  }
-
-  .how__cta-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-primary);
-    color: #ffffff;
-    font-weight: var(--fw-semibold);
-    padding: 12px var(--space-5);
-    border-radius: var(--radius-md);
-    transition: background var(--transition-fast);
-  }
-
-  .how__cta-btn:hover {
-    background: var(--color-primary-light);
-    color: #ffffff;
   }
 </style>

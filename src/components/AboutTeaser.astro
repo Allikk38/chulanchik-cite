@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Container from '@/components/Container.astro';
 import { withBase } from '@/utils/seo';
 import aboutImage from '@/assets/images/about-teaser.jpg';
@@ -7,15 +7,15 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
 
 <section class="about-teaser">
   <div class="about-teaser__bg" aria-hidden="true">
-    <Image
+    <Picture
       src={aboutImage}
       alt=""
-      widths={[800, 1200, 1600, 2000]}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      widths={[800, 1200, 1600, 2000, 2400, 3000]}
       sizes="100vw"
       loading="lazy"
-      format="webp"
-      quality={82}
-      class="about-teaser__bg-image"
+      quality={88}
     />
     <div class="about-teaser__overlay"></div>
   </div>
@@ -33,11 +33,13 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
         Мы верим, что хорошие вещи не должны пылиться. И что покупка
         с рук — это не «эконом-вариант», а разумный и экологичный выбор.
       </p>
-      <a href={withBase('/about')} class="about-teaser__link">
+      <a
+        href={withBase('/about')}
+        class="btn btn--light btn--with-arrow"
+      >
         <span>Подробнее о нас</span>
         <svg
-          width="20"
-          height="20"
+          class="btn__arrow"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -63,13 +65,12 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
     display: flex;
     align-items: center;
     min-height: 520px;
-    padding-block: calc(var(--space-9) + 40px) var(--space-9);
+    padding-block: var(--space-9);
   }
 
   @media (min-width: 768px) {
     .about-teaser {
       min-height: 620px;
-      padding-block: calc(var(--space-9) + 70px) var(--space-9);
     }
   }
 
@@ -80,7 +81,7 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
     z-index: -1;
   }
 
-  .about-teaser__bg-image {
+  .about-teaser__bg :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -109,25 +110,6 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
         rgba(15, 25, 18, 0.82) 100%
       );
     }
-  }
-
-  /* -------- Растворение сверху: продолжение Hero -------- */
-  .about-teaser::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 180px;
-    pointer-events: none;
-    z-index: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(15, 25, 18, 0.95) 0%,
-      rgba(15, 25, 18, 0.7) 35%,
-      rgba(15, 25, 18, 0.3) 70%,
-      transparent 100%
-    );
   }
 
   /* Контент выше градиента */
@@ -176,38 +158,5 @@ import aboutImage from '@/assets/images/about-teaser.jpg';
 
   .about-teaser__text:last-of-type {
     margin-bottom: var(--space-6);
-  }
-
-  /* -------- Кнопка белая, как в Hero -------- */
-  .about-teaser__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-weight: var(--fw-semibold);
-    font-size: var(--fs-base);
-    color: var(--color-text);
-    background: #ffffff;
-    padding: 14px var(--space-6);
-    border-radius: var(--radius-md);
-    border: 1.5px solid #ffffff;
-    transition:
-      background var(--transition-fast),
-      color var(--transition-fast),
-      gap var(--transition-fast);
-  }
-
-  .about-teaser__link svg {
-    transition: transform var(--transition-base);
-  }
-
-  .about-teaser__link:hover {
-    background: var(--color-bg-secondary);
-    border-color: var(--color-bg-secondary);
-    color: var(--color-primary);
-    gap: var(--space-3);
-  }
-
-  .about-teaser__link:hover svg {
-    transform: translateX(2px);
   }
 </style>

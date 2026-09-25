@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 // =========================================================
@@ -16,5 +16,27 @@ export default defineConfig({
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'auto',
+  },
+  experimental: {
+    fonts: [
+      {
+        provider: fontProviders.google(),
+        name: 'Inter',
+        cssVariable: '--font-inter',
+        weights: [400, 500, 600, 700],
+        styles: ['normal'],
+        subsets: ['cyrillic', 'latin'],
+        fallbacks: ['system-ui', 'sans-serif'],
+      },
+      {
+        provider: fontProviders.google(),
+        name: 'Lobster',
+        cssVariable: '--font-lobster',
+        weights: [400],
+        styles: ['normal'],
+        subsets: ['cyrillic', 'latin'],
+        fallbacks: ['cursive'],
+      },
+    ],
   },
 });

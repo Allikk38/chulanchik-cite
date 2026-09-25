@@ -27,8 +27,9 @@
   --color-danger:         #c62828;
 
   /* ---------- Типографика ---------- */
-  --font-logo: 'Lobster', system-ui, cursive;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Значения приходят из Astro Fonts API (см. astro.config.mjs) */
+  --font-logo: var(--font-lobster), 'Lobster', system-ui, cursive;
+  --font-body: var(--font-inter), 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --fs-xs:   12px;
   --fs-sm:   14px;
